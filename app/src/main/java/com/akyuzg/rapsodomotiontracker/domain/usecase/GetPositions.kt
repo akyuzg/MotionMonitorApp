@@ -8,7 +8,7 @@ class GetPositions(
     private val repository: RecordRepository
 ) {
 
-    suspend operator fun invoke(recordId:Int): Flow<List<Position>> {
+    operator fun invoke(recordId:Int): Flow<List<Position>> {
         return repository.getPositions(recordId)
     }
 

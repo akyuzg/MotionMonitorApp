@@ -8,7 +8,7 @@ interface RecordRepository {
 
     fun getRecords(): Flow<List<Record>>
 
-    suspend fun getPositions(recordId: Int): Flow<List<Position>>
+    fun getPositions(recordId: Int): Flow<List<Position>>
 
     suspend fun createRecord(record: Record)
 

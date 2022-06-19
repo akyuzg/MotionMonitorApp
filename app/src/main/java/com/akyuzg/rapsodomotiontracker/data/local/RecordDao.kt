@@ -15,7 +15,7 @@ interface RecordDao {
     fun getRecords(): Flow<List<Record>>
 
     @Query("SELECT * FROM position WHERE position.recordId = :recordId")
-    suspend fun getPositions(recordId: Int): Flow<List<Position>>
+    fun getPositions(recordId: Int): Flow<List<Position>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun createRecord(record: Record)

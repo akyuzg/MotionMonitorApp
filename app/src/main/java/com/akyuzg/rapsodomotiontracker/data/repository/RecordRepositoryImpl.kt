@@ -14,7 +14,7 @@ class RecordRepositoryImpl(
         return dao.getRecords()
     }
 
-    override suspend fun getPositions(recordId: Int): Flow<List<Position>> {
+    override fun getPositions(recordId: Int): Flow<List<Position>> {
         return dao.getPositions(recordId)
     }
 
