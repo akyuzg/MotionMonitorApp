@@ -36,6 +36,8 @@ dependencies {
     configurations { all*.exclude group: 'com.google.guava', module: 'listenablefuture'}
 
     def navigation = "2.4.2"
+    def lifecycle = "2.1.0"
+    def coroutines = "1.6.0"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.2'
@@ -45,6 +47,18 @@ dependencies {
     // navigation
     implementation("androidx.navigation:navigation-fragment-ktx:$navigation")
     implementation("androidx.navigation:navigation-ui-ktx:$navigation")
+
+
+    // viewmodel, livedata
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0-alpha03")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle")
+    implementation("androidx.lifecycle:lifecycle-compiler:$lifecycle")
+    implementation("androidx.lifecycle:lifecycle-common-java8:2.4.0-alpha03")
+
+    // coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines")
 
 
 }
