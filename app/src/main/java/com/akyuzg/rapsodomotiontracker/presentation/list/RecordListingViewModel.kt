@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akyuzg.rapsodomotiontracker.domain.model.Record
 import com.akyuzg.rapsodomotiontracker.domain.usecase.RecordUseCases
+import com.akyuzg.rapsodomotiontracker.domain.utils.RecordHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -19,7 +20,12 @@ class RecordListingViewModel @Inject constructor(
     fun allRecords(): Flow<List<Record>> = recordUseCases.getRecords()
 
     suspend fun createRecord() {
-        val record = Record(name = "kkkkk", description = "zzzz desc", createdAt = System.currentTimeMillis())
+        val record = Record(
+            name = RecordHelper.getRandomName(),
+            description = RecordHelper.getRandomDescription(),
+            createdAt = System.currentTimeMillis()
+        )
+
         recordUseCases.createRecord(record)
     }
 }
