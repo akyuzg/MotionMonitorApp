@@ -5,36 +5,65 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
+import androidx.lifecycle.coroutineScope
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akyuzg.rapsodomotiontracker.R
+import com.akyuzg.rapsodomotiontracker.databinding.RecordListingFragmentBinding
+import kotlinx.coroutines.launch
 
 class RecordListingFragment: Fragment() {
 
     private val viewModel: RecordListingViewModel by hiltNavGraphViewModels(R.id.navigation)
 
-    private lateinit var v: View
+    private var _binding: RecordListingFragmentBinding? = null
+    private val binding get() = _binding!!
+
+    private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        v = inflater.inflate(R.layout.fragment_record_listing, container, false)
-        return v
+        _binding = RecordListingFragmentBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        prepareRecyclerView()
+
+
+        val adapter = RecordListAdapter {
+            val action = RecordListingFragmentDirections
+                .actionRecordListingFragmentToReplayFragment()
+            view.findNavController().navigate(action)
+        }
+        recyclerView.adapter = adapter
+
+
+        lifecycle.coroutineScope.launch {
+            viewModel.allRecords().collect() {
+                adapter.submitList(it)
+            }
+        }
     }
 
     private fun prepareRecyclerView(){
-        val recyclerView = v.findViewById<RecyclerView>(R.id.recyclerView)
-
+        recyclerView = binding.recyclerView
         val layoutManager = LinearLayoutManager(context)
         layoutManager.orientation = LinearLayoutManager.VERTICAL
         layoutManager.scrollToPosition(0)
         recyclerView.layoutManager = layoutManager
+    }
 
-        //adapter = RecordListAdapter(requireContext(), viewModel)
-        //recyclerView.adapter = adapter
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
