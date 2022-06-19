@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akyuzg.rapsodomotiontracker.R
 import com.akyuzg.rapsodomotiontracker.databinding.RecordListingFragmentBinding
+import com.akyuzg.rapsodomotiontracker.domain.usecase.RecordUseCases
 import kotlinx.coroutines.launch
 
 class RecordListingFragment: Fragment() {
@@ -36,6 +37,16 @@ class RecordListingFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prepareRecyclerView()
+
+        binding.newRecordFab.setOnClickListener {
+            lifecycle.coroutineScope.launch{
+                viewModel.createRecord()
+            }
+
+            val action = RecordListingFragmentDirections
+                .actionRecordListingFragmentToReplayFragment()
+            view.findNavController().navigate(action)
+        }
 
 
         val adapter = RecordListAdapter {
