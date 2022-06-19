@@ -1,4 +1,4 @@
-package com.akyuzg.rapsodomotiontracker.domain.model
+package com.akyuzg.rapsodomotiontracker.data.local.dto
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

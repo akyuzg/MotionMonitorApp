@@ -1,6 +1,6 @@
 package com.akyuzg.rapsodomotiontracker.domain.usecase
 
-import com.akyuzg.rapsodomotiontracker.domain.model.Record
+import com.akyuzg.rapsodomotiontracker.data.local.dto.Record
 import com.akyuzg.rapsodomotiontracker.domain.repository.RecordRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

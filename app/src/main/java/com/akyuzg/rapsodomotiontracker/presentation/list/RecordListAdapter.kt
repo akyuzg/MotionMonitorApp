@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.akyuzg.rapsodomotiontracker.databinding.RecordItemBinding
-import com.akyuzg.rapsodomotiontracker.domain.model.Record
+import com.akyuzg.rapsodomotiontracker.data.local.dto.Record
 
 class RecordListAdapter(
     private val onItemClicked: (Record) -> Unit

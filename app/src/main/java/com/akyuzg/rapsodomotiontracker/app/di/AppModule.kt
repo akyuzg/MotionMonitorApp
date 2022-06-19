@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.akyuzg.rapsodomotiontracker.data.local.RapsodoDatabase
 import com.akyuzg.rapsodomotiontracker.data.repository.RecordRepositoryImpl
+import com.akyuzg.rapsodomotiontracker.data.mapper.PositionMapper
 import com.akyuzg.rapsodomotiontracker.domain.repository.RecordRepository
 import com.akyuzg.rapsodomotiontracker.domain.usecase.*
 import dagger.Module
@@ -28,8 +29,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRecordRepository(db: RapsodoDatabase): RecordRepository {
-        return RecordRepositoryImpl(db.recordDao)
+    fun providePositionMapper(): PositionMapper {
+        return PositionMapper()
+    }
+
+    @Provides
+    @Singleton
+    fun provideRecordRepository(db: RapsodoDatabase, mapper: PositionMapper): RecordRepository {
+        return RecordRepositoryImpl(db.recordDao, mapper)
     }
 
     @Provides
