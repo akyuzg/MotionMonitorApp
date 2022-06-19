@@ -18,19 +18,8 @@ class RecordListingViewModel @Inject constructor(
 
     fun allRecords(): Flow<List<Record>> = recordUseCases.getRecords()
 
-
-    private val _records = mutableListOf<Record>()
-    val records = MutableLiveData<List<Record>>()
-
-    init {
-
+    suspend fun createRecord() {
+        val record = Record(name = "kkkkk", description = "zzzz desc", createdAt = System.currentTimeMillis())
+        recordUseCases.createRecord(record)
     }
-
-
-    val selectedRecord: MutableLiveData<Record>? = null
-
-    fun selectRecord(record: Record){
-        selectedRecord?.value = record
-    }
-
 }
