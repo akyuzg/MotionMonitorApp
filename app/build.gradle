@@ -41,7 +41,7 @@ dependencies {
     def lifecycle = "2.1.0"
     def coroutines = "1.6.0"
     def dagger_hilt = "2.38.1"
-    val room = "2.4.2"
+    def room = "2.4.2"
 
 
     implementation 'androidx.core:core-ktx:1.7.0'
