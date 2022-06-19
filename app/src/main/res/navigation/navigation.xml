@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/navigation">
+    android:id="@+id/navigation"
+    app:startDestination="@id/recordListingFragment">
 
+    <fragment
+        android:id="@+id/recordListingFragment"
+        android:name="com.akyuzg.rapsodomotiontracker.presentation.list.RecordListingFragment"
+        android:label="RecordListingFragment" >
+        <action
+            android:id="@+id/action_recordListingFragment_to_replayFragment"
+            app:destination="@id/replayFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/replayFragment"
+        android:name="com.akyuzg.rapsodomotiontracker.presentation.detail.ReplayFragment"
+        android:label="ReplayFragment" />
 </navigation>
