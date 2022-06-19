@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface RecordDao {
 
     @Query("SELECT * FROM record")
-    suspend fun getRecords(): Flow<List<Record>>
+    fun getRecords(): Flow<List<Record>>
 
     @Query("SELECT * FROM position WHERE position.recordId = :recordId")
     suspend fun getPositions(recordId: Int): Flow<List<Position>>

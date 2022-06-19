@@ -12,4 +12,8 @@ import com.akyuzg.rapsodomotiontracker.domain.model.Record
 )
 abstract class RapsodoDatabase: RoomDatabase() {
     abstract val recordDao: RecordDao
+
+    companion object{
+        const val DATABASE_NAME = "rapsodo_db"
+    }
 }

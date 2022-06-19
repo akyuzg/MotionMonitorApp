@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface RecordRepository {
 
-    suspend fun getRecords(): Flow<List<Record>>
+    fun getRecords(): Flow<List<Record>>
 
     suspend fun getPositions(recordId: Int): Flow<List<Position>>
 
