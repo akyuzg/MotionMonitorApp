@@ -12,19 +12,19 @@ import kotlin.math.abs
 class BallView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     private var point = Position(x = 0f, y = 0f, z = 0f)
-    private var velocityY = 0f
+    private var currentVelocity = 0f
     private var started: Boolean = false
 
     companion object {
-        const val VELOCITY = 10f
+        const val VELOCITY = 8f
         const val THRESHOLD = 0.01f
     }
 
-    fun startMoveIfEligable(accelerateY: Float) {
+    fun startMoveIfEligable(gyroX: Float) {
         started = true
 
-        if(abs(accelerateY) > THRESHOLD){
-            velocityY = if (accelerateY < 0) VELOCITY else -1 * VELOCITY
+        if(abs(gyroX) > THRESHOLD){
+            currentVelocity = if (gyroX < 0) -1 * VELOCITY else VELOCITY
         }
         invalidate()
     }
@@ -42,7 +42,7 @@ class BallView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
             return
         }
 
-        point = Position(point.x, point.y + velocityY, point.z)
+        point = Position(point.x, point.y + currentVelocity, point.z)
         canvas?.drawCircle(point.x, point.y, 60f, paint)
     }
 

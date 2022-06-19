@@ -22,9 +22,6 @@ class ReplayFragment: Fragment(), SensorEventListener {
     private lateinit var linearAccelerationSensor: Sensor
 
 
-    var accelerateY = 0f
-
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -37,14 +34,14 @@ class ReplayFragment: Fragment(), SensorEventListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         this.sensorManager = activity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION)?.let {
+        sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)?.let {
             this.linearAccelerationSensor = it
         }
     }
 
     override fun onResume() {
         super.onResume()
-        sensorManager.registerListener(this, linearAccelerationSensor, SensorManager.SENSOR_DELAY_NORMAL)
+        sensorManager.registerListener(this, linearAccelerationSensor, SensorManager.SENSOR_DELAY_GAME)
     }
 
     override fun onPause() {
@@ -54,10 +51,9 @@ class ReplayFragment: Fragment(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent?) {
         event?.let {
-            if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-                accelerateY = it.values[1]
-                //Log.e("SENSOR Y", it.values[1].toString()+"- ")
-                binding.ballView.startMoveIfEligable(accelerateY)
+            if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
+                Log.e("SENSOR", "X = "+it.values[0].toString()+"- "+"Y = "+it.values[1].toString()+"Z = "+it.values[2].toString())
+                binding.ballView.startMoveIfEligable(it.values[0])
 
             }
 
