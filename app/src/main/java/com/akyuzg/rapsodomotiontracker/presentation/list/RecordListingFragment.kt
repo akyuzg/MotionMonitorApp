@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.akyuzg.rapsodomotiontracker.R
 import com.akyuzg.rapsodomotiontracker.databinding.RecordListingFragmentBinding
-import com.akyuzg.rapsodomotiontracker.domain.usecase.RecordUseCases
 import kotlinx.coroutines.launch
 
 class RecordListingFragment: Fragment() {
@@ -30,8 +29,7 @@ class RecordListingFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = RecordListingFragmentBinding.inflate(inflater, container, false)
-        val view = binding.root
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

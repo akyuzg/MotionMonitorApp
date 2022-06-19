@@ -2,7 +2,7 @@ package com.akyuzg.rapsodomotiontracker.presentation.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.akyuzg.rapsodomotiontracker.domain.model.Record
+import com.akyuzg.rapsodomotiontracker.data.local.dto.Record
 import com.akyuzg.rapsodomotiontracker.domain.usecase.RecordUseCases
 import com.akyuzg.rapsodomotiontracker.domain.utils.RecordHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
