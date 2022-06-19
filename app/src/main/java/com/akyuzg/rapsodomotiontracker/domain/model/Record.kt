@@ -5,7 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Record(
-    val title: String,
+    val name: String,
+    val description: String,
     val createdAt: Long,
 
     @PrimaryKey
