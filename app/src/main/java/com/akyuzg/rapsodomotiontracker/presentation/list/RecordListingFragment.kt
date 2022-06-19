@@ -39,9 +39,7 @@ class RecordListingFragment: Fragment() {
         prepareRecyclerView()
 
         binding.newRecordFab.setOnClickListener {
-            lifecycle.coroutineScope.launch{
-                viewModel.createRecord()
-            }
+            viewModel.createRecord()
 
             val action = RecordListingFragmentDirections
                 .actionRecordListingFragmentToReplayFragment()
