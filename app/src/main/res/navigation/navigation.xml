@@ -15,5 +15,10 @@
     <fragment
         android:id="@+id/replayFragment"
         android:name="com.akyuzg.rapsodomotiontracker.presentation.detail.ReplayFragment"
-        android:label="ReplayFragment" />
+        android:label="ReplayFragment" >
+        <argument
+            android:name="recordId"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
 </navigation>
