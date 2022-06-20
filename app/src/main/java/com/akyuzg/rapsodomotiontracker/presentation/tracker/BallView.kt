@@ -7,6 +7,9 @@ import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.View
 import com.akyuzg.rapsodomotiontracker.domain.model.Position
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlin.math.abs
 
 class BallView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
@@ -20,7 +23,7 @@ class BallView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
         const val THRESHOLD = 0.01f
     }
 
-    fun startMoveIfEligable(gyroX: Float) {
+    fun startMovingIfEligable(gyroX: Float) {
         started = true
 
         if(abs(gyroX) > THRESHOLD){
@@ -31,6 +34,13 @@ class BallView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
     val paint = Paint().apply {
         color = Color.RED
+    }
+
+    fun pointFlow(): Flow<Position> =  flow {
+        for (i in 1..100) {
+            delay(100)
+            emit(point)
+        }
     }
 
     override fun onDraw(canvas: Canvas?) {

@@ -11,8 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.coroutineScope
+import com.akyuzg.rapsodomotiontracker.data.mapper.PositionMapper
 import com.akyuzg.rapsodomotiontracker.databinding.ReplayFragmentBinding
+import com.akyuzg.rapsodomotiontracker.domain.usecase.RecordUseCases
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class ReplayFragment: Fragment(), SensorEventListener {
 
     private var _binding: ReplayFragmentBinding? = null
@@ -20,6 +28,9 @@ class ReplayFragment: Fragment(), SensorEventListener {
 
     private lateinit var sensorManager: SensorManager
     private lateinit var linearAccelerationSensor: Sensor
+
+    @Inject
+    lateinit var recordUseCases: RecordUseCases
 
 
     override fun onCreateView(
@@ -37,6 +48,21 @@ class ReplayFragment: Fragment(), SensorEventListener {
         sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)?.let {
             this.linearAccelerationSensor = it
         }
+
+        binding.startButton.setOnClickListener {
+            lifecycle.coroutineScope.launch {
+                binding.ballView.pointFlow().collect {
+                    recordUseCases.insertPosition(1, it)
+                }
+            }
+        }
+
+        lifecycle.coroutineScope.launch {
+            recordUseCases.getPositions(1).collect {
+                Log.e("POSITIONS", "size = "+it.size.toString())
+            }
+        }
+
     }
 
     override fun onResume() {
@@ -52,8 +78,8 @@ class ReplayFragment: Fragment(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent?) {
         event?.let {
             if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-                Log.e("SENSOR", "X = "+it.values[0].toString()+"- "+"Y = "+it.values[1].toString()+"Z = "+it.values[2].toString())
-                binding.ballView.startMoveIfEligable(it.values[0])
+                //Log.e("SENSOR", "X = "+it.values[0].toString()+"- "+"Y = "+it.values[1].toString()+"Z = "+it.values[2].toString())
+                binding.ballView.startMovingIfEligable(it.values[0])
 
             }
 

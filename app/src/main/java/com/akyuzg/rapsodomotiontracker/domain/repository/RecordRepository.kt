@@ -13,5 +13,5 @@ interface RecordRepository {
 
     suspend fun createRecord(record: Record)
 
-    suspend fun insertPosition(point: Position)
+    suspend fun insertPosition(recordId: Int, point: Position)
 }

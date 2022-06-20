@@ -25,8 +25,8 @@ class RecordRepositoryImpl(
         return dao.createRecord(record)
     }
 
-    override suspend fun insertPosition(point: Position) {
-        return dao.insertPosition(mapper.fromModel(point))
+    override suspend fun insertPosition(recordId: Int, point: Position) {
+        return dao.insertPosition(mapper.fromModel(point).copy(recordId = recordId))
     }
 
 }

@@ -21,5 +21,5 @@ interface RecordDao {
     suspend fun createRecord(record: Record)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPosition(position: Coordinate)
+    suspend fun insertPosition(recordposition: Coordinate)
 }

@@ -10,7 +10,7 @@ data class Coordinate(
     val z: Float,
 
 
-    val recordId: Int? = null,
+    var recordId: Int? = null,
 
     @PrimaryKey
     val id: Int? = null
