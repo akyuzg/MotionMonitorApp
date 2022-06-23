@@ -1,5 +1,4 @@
 <resources>
     <string name="app_name">RapsodoMotionTracker</string>
-    <string name="recording">Recording</string>
-    <string name="finished">Finished</string>
+    <string name="record">RECORD</string>
 </resources>

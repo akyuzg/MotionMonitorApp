@@ -23,6 +23,8 @@ class RecordAndReplayFragment: Fragment(), SensorEventListener {
     private var _binding: ReplayFragmentBinding? = null
     private val binding get() = _binding!!
 
+
+
     private lateinit var sensorManager: SensorManager
     private lateinit var linearAccelerationSensor: Sensor
 
@@ -45,16 +47,20 @@ class RecordAndReplayFragment: Fragment(), SensorEventListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.vm = viewModel
+
         this.sensorManager = activity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
         sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)?.let {
             this.linearAccelerationSensor = it
         }
 
         binding.recordButton.setOnClickListener {
-            startRecording()
+            viewModel.startRecording()
             lifecycle.coroutineScope.launch {
                 binding.ballView.pointFlow()
-                    .onCompletion { recordFinished() }
+                    .onCompletion { viewModel.recordFinished() }
                     .collect {
                         viewModel.insertPosition(it)
                     }
@@ -63,27 +69,12 @@ class RecordAndReplayFragment: Fragment(), SensorEventListener {
 
         lifecycle.coroutineScope.launch {
             viewModel.getPositions().collect {
-                binding.recordButton.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
-                if(!viewModel.recording.get()){
+                viewModel.recordable.value = it.isEmpty()
+                if(!viewModel.recordable.value!!){
                     binding.ballView.play(it)
                 }
             }
         }
-
-    }
-
-    private fun startRecording() {
-        viewModel.recording.set(true)
-
-        binding.statusText.text = "RECORDING"
-        binding.statusText.visibility = View.VISIBLE
-        binding.recordButton.visibility = View.GONE
-    }
-
-    private fun recordFinished(){
-        viewModel.recording.set(false)
-        viewModel.recordFinished.set(true)
-        binding.statusText.text = "FINISHED"
     }
 
     override fun onResume() {
@@ -98,12 +89,9 @@ class RecordAndReplayFragment: Fragment(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent?) {
         event?.let {
-            if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE) {
-                //Log.e("SENSOR", "X = "+it.values[0].toString()+"- "+"Y = "+it.values[1].toString()+"Z = "+it.values[2].toString())
+            if (event.sensor.type == Sensor.TYPE_GYROSCOPE) {
                 binding.ballView.startMovingIfEligable(it.values[0])
-
             }
-
         }
     }
 

@@ -1,6 +1,8 @@
 package com.akyuzg.rapsodomotiontracker.presentation.detail
 
 import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.akyuzg.rapsodomotiontracker.data.local.dto.Coordinate
@@ -17,9 +19,10 @@ class RecordAndReplayViewModel @Inject  constructor(
 ): ViewModel() {
 
     var recordId = 0L
+    var recording = false
 
-    val recording = ObservableBoolean(false)
-    val recordFinished = ObservableBoolean(false)
+    val status = MutableLiveData("")
+    val recordable = MutableLiveData(false)
 
 
     fun getPositions(): Flow<List<Coordinate>> {
@@ -29,5 +32,18 @@ class RecordAndReplayViewModel @Inject  constructor(
     fun insertPosition(position: Position) = viewModelScope.launch {
         recordUseCases.insertPosition(recordId, position)
     }
+
+    fun startRecording() {
+        recording = true
+        recordable.value = false
+        status.value = RecordStatus.RECORDING.status
+    }
+
+    fun recordFinished() {
+        recording = false
+        recordable.value = false
+        status.value = RecordStatus.FINISHED.status
+    }
+
 
 }
