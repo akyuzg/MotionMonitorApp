@@ -10,15 +10,16 @@
         android:label="RecordListingFragment" >
         <action
             android:id="@+id/action_recordListingFragment_to_replayFragment"
-            app:destination="@id/replayFragment" />
+            app:destination="@id/detailFragment" >
+        </action>
     </fragment>
     <fragment
-        android:id="@+id/replayFragment"
-        android:name="com.akyuzg.rapsodomotiontracker.presentation.detail.ReplayFragment"
+        android:id="@+id/detailFragment"
+        android:name="com.akyuzg.rapsodomotiontracker.presentation.detail.RecordAndReplayFragment"
         android:label="ReplayFragment" >
         <argument
             android:name="recordId"
-            app:argType="integer"
-            android:defaultValue="0" />
+            app:argType="long"
+            android:defaultValue="0L" />
     </fragment>
 </navigation>

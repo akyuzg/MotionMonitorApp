@@ -9,9 +9,9 @@ interface RecordRepository {
 
     fun getRecords(): Flow<List<Record>>
 
-    fun getPositions(recordId: Int): Flow<List<Coordinate>>
+    fun getPositions(recordId: Long): Flow<List<Coordinate>>
 
-    suspend fun createRecord(record: Record)
+    suspend fun createRecord(record: Record): Long
 
-    suspend fun insertPosition(recordId: Int, point: Position)
+    suspend fun insertPosition(recordId: Long, point: Position)
 }

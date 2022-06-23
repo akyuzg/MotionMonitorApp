@@ -10,5 +10,5 @@ data class Record(
     val createdAt: Long,
 
     @PrimaryKey
-    val id: Int? = null
+    val id: Long? = null
 )

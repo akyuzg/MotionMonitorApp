@@ -62,19 +62,15 @@ class BallView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     }
 
     fun play(positions: List<Coordinate>) {
-
         repeat(positions.size) {
             GlobalScope.launch {
                 for(pos in positions){
                     _point = Position(pos.x, pos.y, pos.z)
                     invalidate()
-
+                    Thread.sleep(100)
                 }
             }
         }
-        Thread.sleep(100)
-
-
     }
 
 }

@@ -17,15 +17,15 @@ class RecordRepositoryImpl(
         return dao.getRecords()
     }
 
-    override fun getPositions(recordId: Int): Flow<List<Coordinate>> {
+    override fun getPositions(recordId: Long): Flow<List<Coordinate>> {
         return dao.getPositions(recordId)
     }
 
-    override suspend fun createRecord(record: Record) {
+    override suspend fun createRecord(record: Record): Long {
         return dao.createRecord(record)
     }
 
-    override suspend fun insertPosition(recordId: Int, point: Position) {
+    override suspend fun insertPosition(recordId: Long, point: Position) {
         return dao.insertPosition(mapper.fromModel(point).copy(recordId = recordId))
     }
 

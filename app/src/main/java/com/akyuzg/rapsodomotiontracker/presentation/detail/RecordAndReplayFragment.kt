@@ -6,24 +6,19 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import com.akyuzg.rapsodomotiontracker.databinding.ReplayFragmentBinding
-import com.akyuzg.rapsodomotiontracker.domain.usecase.RecordUseCases
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 @AndroidEntryPoint
-class ReplayFragment: Fragment(), SensorEventListener {
+class RecordAndReplayFragment: Fragment(), SensorEventListener {
 
     private var _binding: ReplayFragmentBinding? = null
     private val binding get() = _binding!!
@@ -31,13 +26,13 @@ class ReplayFragment: Fragment(), SensorEventListener {
     private lateinit var sensorManager: SensorManager
     private lateinit var linearAccelerationSensor: Sensor
 
-    @Inject
-    lateinit var recordUseCases: RecordUseCases
+    private val viewModel: RecordAndReplayViewModel by viewModels()
 
-    var recording = false
 
-    val recordId = 8
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.recordId = arguments?.getLong("recordId")!!
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,7 +40,6 @@ class ReplayFragment: Fragment(), SensorEventListener {
         savedInstanceState: Bundle?
     ): View? {
         _binding = ReplayFragmentBinding.inflate(inflater, container, false)
-
         return _binding?.root
     }
 
@@ -62,16 +56,15 @@ class ReplayFragment: Fragment(), SensorEventListener {
                 binding.ballView.pointFlow()
                     .onCompletion { recordFinished() }
                     .collect {
-                        recordUseCases.insertPosition(recordId, it)
+                        viewModel.insertPosition(it)
                     }
             }
         }
 
         lifecycle.coroutineScope.launch {
-            recordUseCases.getPositions(recordId).collect {
+            viewModel.getPositions().collect {
                 binding.recordButton.visibility = if (it.isEmpty()) View.VISIBLE else View.GONE
-                Log.e("POSITIONS", "size = "+it.size.toString())
-                if(!recording){
+                if(!viewModel.recording.get()){
                     binding.ballView.play(it)
                 }
             }
@@ -80,13 +73,16 @@ class ReplayFragment: Fragment(), SensorEventListener {
     }
 
     private fun startRecording() {
-        recording = true
+        viewModel.recording.set(true)
+
         binding.statusText.text = "RECORDING"
         binding.statusText.visibility = View.VISIBLE
         binding.recordButton.visibility = View.GONE
     }
 
     private fun recordFinished(){
+        viewModel.recording.set(false)
+        viewModel.recordFinished.set(true)
         binding.statusText.text = "FINISHED"
     }
 

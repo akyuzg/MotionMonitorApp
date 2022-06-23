@@ -7,7 +7,7 @@ class CreateRecord(
     private val repository: RecordRepository
 ) {
 
-    suspend operator fun invoke(record: Record){
-        repository.createRecord(record)
+    suspend operator fun invoke(record: Record): Long{
+        return repository.createRecord(record)
     }
 }

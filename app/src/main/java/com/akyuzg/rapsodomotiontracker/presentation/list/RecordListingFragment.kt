@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -37,24 +39,22 @@ class RecordListingFragment: Fragment() {
         prepareRecyclerView()
 
         binding.newRecordFab.setOnClickListener {
-            viewModel.createRecord()
+            lifecycle.coroutineScope.launch {
+                val newRecordId = viewModel.createRecord()
+                val bundle = bundleOf("recordId" to newRecordId)
+                view.findNavController().navigate(R.id.detailFragment, bundle)
+            }
 
-            val action = RecordListingFragmentDirections
-                .actionRecordListingFragmentToReplayFragment()
-            view.findNavController().navigate(action)
         }
 
 
         val adapter = RecordListAdapter {
-            val action = RecordListingFragmentDirections
-                .actionRecordListingFragmentToReplayFragment()
-            view.findNavController().navigate(action)
+            val bundle = bundleOf("recordId" to it.id)
+            view.findNavController().navigate(R.id.detailFragment, bundle)
         }
         recyclerView.adapter = adapter
-
-
         lifecycle.coroutineScope.launch {
-            viewModel.allRecords().collect() {
+            viewModel.allRecords().collect {
                 adapter.submitList(it)
             }
         }

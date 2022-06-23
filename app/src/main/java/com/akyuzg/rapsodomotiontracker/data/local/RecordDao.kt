@@ -15,11 +15,11 @@ interface RecordDao {
     fun getRecords(): Flow<List<Record>>
 
     @Query("SELECT * FROM coordinate WHERE coordinate.recordId = :recordId")
-    fun getPositions(recordId: Int): Flow<List<Coordinate>>
+    fun getPositions(recordId: Long): Flow<List<Coordinate>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun createRecord(record: Record)
+    suspend fun createRecord(record: Record): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPosition(recordposition: Coordinate)
+    suspend fun insertPosition(recordPosition: Coordinate)
 }
