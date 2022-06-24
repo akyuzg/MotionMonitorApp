@@ -7,10 +7,15 @@
 4. Coroutines and Flow
 5. MVVM
 
+### Database
+1. Records table
+2. Points table
+#### Relationship
+each record has many points: 1 - n relation
+
+
 ### Architecture
 MVVM with Clean Architecture 
-
-
 1. Data Layer
     * Local Database
         - Room Entities
