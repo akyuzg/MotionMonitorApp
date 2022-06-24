@@ -10,7 +10,7 @@ class GetPositions(
 ) {
 
     operator fun invoke(recordId: Long): Flow<List<Coordinate>> {
-        Log.e("GetPositions", "recordId = $recordId")
+        Log.d("GetPositions", "recordId = $recordId")
         return repository.getPositions(recordId)
     }
 

@@ -8,7 +8,7 @@ class InsertPosition(
     private val repository: RecordRepository
 ) {
     suspend operator fun invoke(recordId: Long, position: Position){
-        Log.e("InsertPosition", "recordId = $recordId")
+        Log.d("InsertPosition", "recordId = $recordId")
         repository.insertPosition(recordId, position)
     }
 }
