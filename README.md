@@ -1,4 +1,4 @@
-## Motion Traking Application
+## Motion Monitor Application
 
 ### Jetpack Libraries which are used in the project
 1. Hilt Dagger
