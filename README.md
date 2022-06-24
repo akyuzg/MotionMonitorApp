@@ -28,4 +28,6 @@ MVVM with Clean Architecture
   
 ### Notes
 - Coroutines and Flow used with Room database and used for collecting ball coordinates 
+
+### Missing Part
 - You can record x, y, z coordinates. But no object used to show the movement in z-axis.
