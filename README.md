@@ -10,24 +10,26 @@
 ### Database
 1. Records table
 2. Points table
-#### Relationship
+-
 each record has many points: 1 - n relation
 
 
 ### Architecture
 MVVM with Clean Architecture 
-1. Data Layer
+1. App Layer
+    * Dependency Injection
+2. Data Layer
     * Local Database
         - Room Entities
     * Repository Implementations
-2. Domain Layer
+3. Domain Layer
     * Models
     * Repository Abstractions
     * Usecases
-3. Presentation Layer
+4. Presentation Layer
   
 ### Notes
-- Coroutines and Flow used with Room database and used for collecting ball coordinates 
+- Coroutines and Flow used with Room database to collect ball coordinates 
 
 ### Missing Part
 - You can record x, y, z coordinates. But no object used to show the movement in z-axis.
