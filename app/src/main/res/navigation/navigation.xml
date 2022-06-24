@@ -16,7 +16,7 @@
     <fragment
         android:id="@+id/detailFragment"
         android:name="com.akyuzg.rapsodomotiontracker.presentation.detail.RecordAndReplayFragment"
-        android:label="ReplayFragment" >
+        android:label="Record Or Replay" >
         <argument
             android:name="recordId"
             app:argType="long"
