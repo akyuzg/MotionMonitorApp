@@ -11,7 +11,6 @@
 MVVM with Clean Architecture 
 
 
-
 1. Data Layer
     * Local Database
         - Room Entities
@@ -22,4 +21,5 @@ MVVM with Clean Architecture
     * Usecases
 3. Presentation Layer
   
-### Coroutines and Flow used with Room database and used for recording points
+- Coroutines and Flow used with Room database and used for recording ball coordinates
+- You can record x, y, z coordinates. No object used to show the movement in z-axis.
