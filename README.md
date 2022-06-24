@@ -15,7 +15,7 @@
 
 
 ### Architecture
-MVVM with Clean Architecture 
+MVVM with Clean Architecture using SOLID principles 
 1. App Layer
     * Dependency Injection
 2. Data Layer
@@ -27,6 +27,13 @@ MVVM with Clean Architecture
     * Repository Abstractions
     * Usecases
 4. Presentation Layer
+
+### SOLID 
+S - Single responsibilty Principle
+O - Open Closed Principle
+L - Liskov Substituion Principle
+I - Interface Segregation Principle
+D - Dependency Inversion Principle
   
 ### Notes
 - Coroutines and Flow used with Room database to collect ball coordinates 
