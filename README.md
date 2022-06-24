@@ -28,12 +28,6 @@ MVVM with Clean Architecture using SOLID principles
     * Usecases
 4. Presentation Layer
 
-### SOLID 
-* S - Single responsibilty Principle
-* O - Open Closed Principle
-* L - Liskov Substituion Principle
-* I - Interface Segregation Principle
-* D - Dependency Inversion Principle
   
 ### Notes
 - Coroutines and Flow used with Room database to collect ball coordinates 
