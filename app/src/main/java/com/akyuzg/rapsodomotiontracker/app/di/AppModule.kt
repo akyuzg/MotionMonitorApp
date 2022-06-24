@@ -1,7 +1,6 @@
 package com.akyuzg.rapsodomotiontracker.app.di
 
 import android.app.Application
-import android.hardware.SensorManager
 import androidx.room.Room
 import com.akyuzg.rapsodomotiontracker.data.local.RapsodoDatabase
 import com.akyuzg.rapsodomotiontracker.data.repository.RecordRepositoryImpl
@@ -10,8 +9,6 @@ import com.akyuzg.rapsodomotiontracker.domain.repository.RecordRepository
 import com.akyuzg.rapsodomotiontracker.domain.usecase.*
 import com.akyuzg.rapsodomotiontracker.domain.usecase.sensor_change.ISensorChangeManager
 import com.akyuzg.rapsodomotiontracker.domain.usecase.sensor_change.SensorChangeManager
-import com.akyuzg.rapsodomotiontracker.domain.utils.RandomStringGenerator
-import com.akyuzg.rapsodomotiontracker.domain.utils.RecordFaker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -55,23 +52,10 @@ object AppModule {
         )
     }
 
-
     @Provides
     @Singleton
     fun provideSensorChangeManager(): ISensorChangeManager{
         return SensorChangeManager()
-    }
-
-    @Provides
-    @Singleton
-    fun provideRandomStringGenerator(): RandomStringGenerator {
-        return RandomStringGenerator()
-    }
-
-    @Provides
-    @Singleton
-    fun provideRecordFaker(randomStringGenerator: RandomStringGenerator): RecordFaker {
-        return RecordFaker(randomStringGenerator)
     }
 
 }
