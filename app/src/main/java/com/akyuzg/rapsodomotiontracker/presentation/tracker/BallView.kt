@@ -5,14 +5,13 @@ import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import com.akyuzg.rapsodomotiontracker.data.local.dto.Coordinate
 import com.akyuzg.rapsodomotiontracker.domain.model.Position
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.launch
 import kotlin.math.abs
 
 class BallView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
@@ -26,6 +25,7 @@ class BallView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
     companion object {
         const val VELOCITY = 8f
         const val THRESHOLD = 0.01f
+        const val RADIUS = 60f
     }
 
     fun startMovingIfEligable(gyroX: Float) {
@@ -53,24 +53,22 @@ class BallView(context: Context, attrs: AttributeSet?) : View(context, attrs) {
 
         if(_point == null){
             _point = Position(width / 2f, height / 2f, 0f )
-            canvas?.drawCircle(point.x, point.y, 60f, paint)
+            canvas?.drawCircle(point.x, point.y, RADIUS, paint)
             return
         }
 
         _point = Position(point.x, point.y + currentVelocity, point.z)
-        canvas?.drawCircle(point.x, point.y, 60f, paint)
+        canvas?.drawCircle(point.x, point.y, RADIUS, paint)
     }
 
     fun play(positions: List<Coordinate>) {
-        repeat(positions.size) {
-            GlobalScope.launch {
+         GlobalScope.launch {
                 for(pos in positions){
                     _point = Position(pos.x, pos.y, pos.z)
                     invalidate()
                     Thread.sleep(100)
                 }
             }
-        }
     }
 
 }

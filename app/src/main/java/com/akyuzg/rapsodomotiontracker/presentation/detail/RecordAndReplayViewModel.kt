@@ -20,6 +20,7 @@ class RecordAndReplayViewModel @Inject  constructor(
 
     var recordId = 0L
     var recording = false
+    var finished = false
 
     val status = MutableLiveData("")
     val recordable = MutableLiveData(false)
@@ -40,6 +41,7 @@ class RecordAndReplayViewModel @Inject  constructor(
     }
 
     fun recordFinished() {
+        finished = true
         recording = false
         recordable.value = false
         status.value = RecordStatus.FINISHED.status

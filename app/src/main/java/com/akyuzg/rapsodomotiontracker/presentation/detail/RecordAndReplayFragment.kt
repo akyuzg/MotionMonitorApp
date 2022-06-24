@@ -1,11 +1,7 @@
 package com.akyuzg.rapsodomotiontracker.presentation.detail
 
-import android.content.Context
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,23 +9,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import com.akyuzg.rapsodomotiontracker.databinding.ReplayFragmentBinding
+import com.akyuzg.rapsodomotiontracker.domain.usecase.sensor_change.ISensorChangeManager
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class RecordAndReplayFragment: Fragment(), SensorEventListener {
+class RecordAndReplayFragment: Fragment() {
 
     private var _binding: ReplayFragmentBinding? = null
     private val binding get() = _binding!!
 
-
-
-    private lateinit var sensorManager: SensorManager
-    private lateinit var linearAccelerationSensor: Sensor
+    @Inject
+    lateinit var sensorChangeManager: ISensorChangeManager
 
     private val viewModel: RecordAndReplayViewModel by viewModels()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,9 +46,10 @@ class RecordAndReplayFragment: Fragment(), SensorEventListener {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.vm = viewModel
 
-        this.sensorManager = activity?.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        sensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE)?.let {
-            this.linearAccelerationSensor = it
+        sensorChangeManager.init(context!!)
+
+        sensorChangeManager.listenSensorChanges { values ->
+            binding.ballView.startMovingIfEligable(values[0])
         }
 
         binding.recordButton.setOnClickListener {
@@ -70,7 +66,8 @@ class RecordAndReplayFragment: Fragment(), SensorEventListener {
         lifecycle.coroutineScope.launch {
             viewModel.getPositions().collect {
                 viewModel.recordable.value = it.isEmpty()
-                if(!viewModel.recordable.value!!){
+
+                if(!viewModel.finished && !viewModel.recording){
                     binding.ballView.play(it)
                 }
             }
@@ -79,22 +76,13 @@ class RecordAndReplayFragment: Fragment(), SensorEventListener {
 
     override fun onResume() {
         super.onResume()
-        sensorManager.registerListener(this, linearAccelerationSensor, SensorManager.SENSOR_DELAY_GAME)
+        sensorChangeManager.onResume()
     }
 
     override fun onPause() {
         super.onPause()
-        sensorManager.unregisterListener(this)
+        sensorChangeManager.onPause()
     }
 
-    override fun onSensorChanged(event: SensorEvent?) {
-        event?.let {
-            if (event.sensor.type == Sensor.TYPE_GYROSCOPE) {
-                binding.ballView.startMovingIfEligable(it.values[0])
-            }
-        }
-    }
 
-    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {
-    }
 }
