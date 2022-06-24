@@ -10,8 +10,8 @@
 ### Database
 1. Records table
 2. Points table
--
-each record has many points: 1 - n relation
+- Relationship
+    each record has many points: 1 - n relation
 
 
 ### Architecture
