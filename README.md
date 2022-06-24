@@ -21,5 +21,6 @@ MVVM with Clean Architecture
     * Usecases
 3. Presentation Layer
   
-- Coroutines and Flow used with Room database and used for recording ball coordinates
+### Notes
+- Coroutines and Flow used with Room database and used for collecting ball coordinates 
 - You can record x, y, z coordinates. No object used to show the movement in z-axis.
